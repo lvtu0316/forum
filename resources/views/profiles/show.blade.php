@@ -14,6 +14,9 @@
             @foreach($activity as $record)
                 @include("profiles.activities.{$record->type}",['activity'  => $record])
             @endforeach
+        @empty($threads)
+            <p>暂无动作</p>
+        @endempty
         @endforeach
         <div class="page-header">
             <h1>

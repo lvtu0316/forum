@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Common\Favoritable;
 use App\Common\RecordsActivity;
 use Illuminate\Database\Eloquent\Model;
 
 class Reply extends Model
 {
-    use RecordsActivity;
+    use RecordsActivity,Favoritable;
     protected $guarded = [];
 
     protected $fillable = ['body', 'user_id', 'thread_id'];
@@ -42,7 +43,7 @@ class Reply extends Model
     {
         $attributes = ['user_id' => auth()->id()];
 
-        $this->favorites()->where($attributes)->delete();
+        $this->favorites()->where($attributes)->get()->each->delete();
     }
 
     public function isFavorited()
