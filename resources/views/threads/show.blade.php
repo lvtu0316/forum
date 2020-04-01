@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+    <thread-view inline-template :thread="{{ $thread }} " >
     <div class="container">
         <div class="row">
             <div class="col-md-8">
@@ -24,10 +25,11 @@
 
                 </div>
 
-                @foreach($replies as $reply)
-                    @include('threads.reply')
-                @endforeach
-                {{ $replies->links() }}
+                {{--@foreach($replies as $reply)--}}
+                    {{--@include('threads.reply')--}}
+                {{--@endforeach--}}
+                {{--{{ $replies->links() }}--}}
+                <replies :data="{{ $thread->replies }}" @removed="repliesCount--"></replies>
 
                 @if (auth()->check())
                     <form method="post" action="{{ route('reply.store', $thread->id) }}">
@@ -50,11 +52,12 @@
                     <div class="panel-body">
                         <p>
                             <a href="#">{{ $thread->creator->name }}</a> 发布于 {{ $thread->created_at->diffForHumans() }},
-                            当前共有 {{ $thread->replies_count}} 个回复。
+                            当前共有 <span v-text="repliesCount"></span> 个回复。
                         </p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    </thread-view>
 @endsection

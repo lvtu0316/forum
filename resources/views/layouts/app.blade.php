@@ -23,6 +23,14 @@
         .flex { flex: 1 }
         .mr-1 {margin-right: 1em;}
     </style>
+    <script>
+        window.App = {!! json_encode([
+        'csrfToken' => csrf_token(),
+        'user' => Auth::user(),
+        'signIn' => Auth::check()
+    ]) !!};
+    </script>
+
 </head>
 <body style="padding-bottom: 100px;">
     <div id="app">
@@ -55,5 +63,6 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
+
 </body>
 </html>
