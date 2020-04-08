@@ -27,6 +27,11 @@ class Thread extends Model
 
     }
 
+    public function path()
+    {
+        return "/threads/{$this->channel->slug}/{$this->id}";
+    }
+
     public function replies()
     {
         return $this->hasMany(Reply::class);
@@ -44,7 +49,7 @@ class Thread extends Model
 
     public function addReply($reply)
     {
-        $this->replies()->create($reply);
+        return $this->replies()->create($reply);
     }
 
     public function scopeUsername($query, $username)

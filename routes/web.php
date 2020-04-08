@@ -28,6 +28,8 @@ Route::post('/threads/{thread}', 'ThreadsController@destroy')->name('threads.del
 Route::get('/threads/{thread}/edit', 'threadsController@edit')->name('threads.edit');
 Route::patch('/threads/{thread}', 'threadsController@update')->name('threads.update');
 Route::delete('/threads/{thread}', 'threadsController@destroy')->name('threads.destroy');
+
+Route::get('/threads/{channel}/{thread}/replies','RepliesController@index')->name('reply.index');
 Route::post('/threads/{thread}/replies','RepliesController@store')->name('reply.store');
 Route::delete('/replies/{reply}','RepliesController@destroy')->name('reply.delete');
 Route::patch('/replies/{reply}','RepliesController@update')->name('reply.update');

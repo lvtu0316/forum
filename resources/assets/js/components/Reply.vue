@@ -4,7 +4,7 @@
             <div class="level">
                 <h5 class="flex">
                     <a :href="'/profiles'+data.owner.name" v-text="data.owner.name"></a>
-                    回复于{{data.created_at}}
+                    回复于{{ago}}
                 </h5>
                 <div v-if="signIn">
                     <favorite :reply="data"></favorite>
@@ -34,6 +34,8 @@
 </template>
 <script>
     import Favorite from './Favorite'
+    import moment from 'moment';
+    import 'moment/locale/zh-cn'
     export default {
         props: ['data'],
         components: { Favorite },
@@ -48,10 +50,14 @@
         },
         computed: {
             signIn() {
+
                 return window.App.signIn;
             },
             canUpdate() {
                 return this.authorize(user => this.data.user_id == user.id);
+            },
+            ago() {
+                return moment(this.data.created_at).fromNow() + '...';
             }
         },
         methods: {
@@ -63,6 +69,7 @@
             },
             destroy()
             {
+
                 axios.delete('/replies/' + this.data.id)
                 this.$emit('deleted',this.data.id);
 

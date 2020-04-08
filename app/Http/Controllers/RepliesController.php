@@ -12,16 +12,17 @@ class RepliesController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth')->except(['index']);
     }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($channel, Thread $thread)
     {
-        //
+        return $thread->replies()->paginate(1);
+
     }
 
     /**
@@ -42,10 +43,16 @@ class RepliesController extends Controller
      */
     public function store(ReplyRequest $request, Thread $thread)
     {
-        $thread->addReply([
+        $reply = $thread->addReply([
             'body' => $request->body,
             'user_id' => auth()->id(),
         ]);
+
+        if(request()->expectsJson()){
+            return $reply->load('owner');
+        }
+
+
 
         return redirect(route('threads.show',[$thread->channel,$thread->id]))
             ->with('flash', '创建成功');
