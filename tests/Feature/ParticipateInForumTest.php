@@ -19,10 +19,11 @@ class ParticipateInForumTest extends TestCase
     {
         $this->be($user = factory('App\Models\User')->create());
         $thread = factory('App\Models\Thread')->create();
-        $reply = factory('App\Models\Reply')->create();
+        $reply = factory('App\Models\Reply')->make();
         $this->post('/threads/'.$thread->id.'/replies',$reply->toArray());
-        $this->get(route('threads.show',[$thread->channel,$thread]))
-            ->assertSee($reply->body);
+        $this->assertDatabaseHas('replies',['body' => $reply->body]);
+//        $this->get(route('threads.show',[$thread->channel,$thread]))
+//            ->assertSee($reply->body);
     }
 
     /** @test */

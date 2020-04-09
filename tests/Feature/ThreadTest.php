@@ -67,13 +67,9 @@ class ThreadTest extends TestCase
     /** @test */
     public function test_unauthorized_users_may_not_delete_threads()
     {
+        $this->withExceptionHandling();
 
         $thread = factory('App\Models\Thread')->create();
-
-        $response =  $this->delete('/threads/'.$thread->id);
-
-        $response->assertRedirect('/login');
-
         $this->be($user=factory('App\Models\User')->create());
 
         $this->delete('/threads/'.$thread->id)->assertStatus(403);

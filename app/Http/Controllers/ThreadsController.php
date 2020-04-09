@@ -119,6 +119,7 @@ class ThreadsController extends Controller
 //        $thread->replies()->delete(); //利用 Eloquent 监控器 的 deleting 事件来删除相关回复
 
         $this->authorize('update', $thread);
+
         $thread->delete();
         if(request()->wantsJson()){
             return response([],204);
